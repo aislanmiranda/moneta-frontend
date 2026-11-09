@@ -37,7 +37,7 @@ services:
       target: migrate
     environment:
       TZ: *timezone
-      ConnectionStrings__AgentOffice: *connection-string
+      ConnectionStrings__Moneta: *connection-string
       Auth__JwtKey: *jwt-key
     depends_on:
       postgres:
@@ -50,7 +50,7 @@ services:
       ASPNETCORE_ENVIRONMENT: Development
       ASPNETCORE_HTTP_PORTS: "5080"
       TZ: *timezone
-      ConnectionStrings__AgentOffice: *connection-string
+      ConnectionStrings__Moneta: *connection-string
       Auth__JwtKey: *jwt-key
     ports:
       - "5080:5080"
@@ -69,7 +69,7 @@ services:
     environment:
       DOTNET_ENVIRONMENT: Development
       TZ: *timezone
-      ConnectionStrings__AgentOffice: *connection-string
+      ConnectionStrings__Moneta: *connection-string
     depends_on:
       postgres:
         condition: service_healthy
