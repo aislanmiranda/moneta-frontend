@@ -1,0 +1,94 @@
+# Moneta — ambiente completo local (Postgres + API + scheduler + PWA).
+#
+# Clone os três repositórios lado a lado e rode a partir deste diretório:
+#   moneta-frontend/   ← este repo (docker compose up -d --build)
+#   moneta-backend/
+#   moneta-schedule/
+#
+# Ordem de subida: postgres (healthy) -> migrate (concluído) -> backend -> schedule / frontend
+name: moneta
+
+x-backend-path: &backend-path ${BACKEND_PATH:-../moneta-backend}
+# Fuso dos processos .NET: "hoje", horários de itens/rotinas e crons usam o relógio local.
+x-timezone: &timezone ${TZ:-America/Sao_Paulo}
+x-connection-string: &connection-string "Host=postgres;Port=5432;Database=moneta;Username=moneta;Password=${POSTGRES_PASSWORD:-moneta}"
+x-jwt-key: &jwt-key ${AUTH_JWT_KEY:?Defina AUTH_JWT_KEY no .env (ex. openssl rand -base64 48) — veja .env.example}
+
+services:
+  postgres:
+    image: postgres:17-alpine
+    environment:
+      POSTGRES_DB: moneta
+      POSTGRES_USER: moneta
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:-moneta}
+    ports:
+      - "${POSTGRES_PORT:-5432}:5432"
+    volumes:
+      - moneta_pgdata:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U moneta -d moneta"]
+      interval: 5s
+      timeout: 5s
+      retries: 10
+
+  migrate:
+    build:
+      context: *backend-path
+      target: migrate
+    environment:
+      TZ: *timezone
+      ConnectionStrings__AgentOffice: *connection-string
+      Auth__JwtKey: *jwt-key
+    depends_on:
+      postgres:
+        condition: service_healthy
+
+  backend:
+    build:
+      context: *backend-path
+    environment:
+      ASPNETCORE_ENVIRONMENT: Development
+      ASPNETCORE_HTTP_PORTS: "5080"
+      TZ: *timezone
+      ConnectionStrings__AgentOffice: *connection-string
+      Auth__JwtKey: *jwt-key
+    ports:
+      - "5080:5080"
+    depends_on:
+      postgres:
+        condition: service_healthy
+      migrate:
+        condition: service_completed_successfully
+    restart: unless-stopped
+
+  schedule:
+    build:
+      context: ${SCHEDULE_PATH:-../moneta-schedule}
+      additional_contexts:
+        backend: *backend-path
+    environment:
+      DOTNET_ENVIRONMENT: Development
+      TZ: *timezone
+      ConnectionStrings__AgentOffice: *connection-string
+    depends_on:
+      postgres:
+        condition: service_healthy
+      migrate:
+        condition: service_completed_successfully
+      backend:
+        condition: service_started
+    restart: unless-stopped
+
+  # PWA: nginx serve o build e faz proxy de /api e /hubs para o backend (mesma origem).
+  frontend:
+    build:
+      context: .
+    ports:
+      - "${FRONTEND_PORT:-8080}:80"
+    depends_on:
+      backend:
+        condition: service_started
+    restart: unless-stopped
+
+volumes:
+  moneta_pgdata:

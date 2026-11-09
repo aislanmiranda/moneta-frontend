@@ -1,0 +1,244 @@
+.health {
+  display: flex;
+  flex-direction: column;
+  gap: 1.2rem;
+  max-width: 1200px;
+}
+
+.health__header {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+}
+
+.health__header h1 {
+  font-size: 1.4rem;
+  font-weight: 700;
+  margin: 0 0 0.2rem;
+}
+
+.health__header p {
+  margin: 0;
+  color: var(--color-text-muted);
+  font-size: 0.85rem;
+}
+
+.health__stats {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 0.9rem;
+}
+
+.health__persons {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.4rem;
+}
+
+.health__person-chip {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.35rem;
+  font-size: 0.78rem;
+  font-weight: 600;
+  padding: 0.3rem 0.4rem 0.3rem 0.7rem;
+  border-radius: 999px;
+  border: 1px solid var(--color-border);
+  background: var(--color-surface);
+  color: var(--color-text);
+}
+
+.health__person-relationship {
+  font-weight: 500;
+  color: var(--color-text-muted);
+}
+
+.health__person-chip button {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 1.1rem;
+  height: 1.1rem;
+  border-radius: 50%;
+  border: none;
+  background: none;
+  box-shadow: none;
+  color: var(--color-text-muted);
+  cursor: pointer;
+}
+
+.health__person-chip button:hover {
+  background: var(--color-surface-hover);
+  color: var(--color-health);
+}
+
+.health__section h2 {
+  font-size: 1rem;
+  font-weight: 650;
+  margin: 0 0 0.6rem;
+}
+
+.health__hint {
+  margin: 0;
+  font-size: 0.82rem;
+  color: var(--color-text-muted);
+}
+
+.health__hint--error {
+  color: var(--color-danger);
+}
+
+.health-table {
+  width: 100%;
+  table-layout: fixed;
+  border-collapse: collapse;
+  font-size: 0.82rem;
+  border-radius: 12px;
+  overflow: hidden;
+  background: var(--color-surface);
+  border: 1px solid var(--color-border);
+}
+
+.health-table th {
+  text-align: left;
+  font-size: 0.72rem;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  color: var(--color-text-muted);
+  font-weight: 650;
+  padding: 0.65rem 0.8rem;
+  border-bottom: 1px solid var(--color-border);
+}
+
+.health-table td {
+  padding: 0.7rem 0.8rem;
+  border-bottom: 1px solid var(--color-border);
+  color: var(--color-text-muted);
+  white-space: nowrap;
+  overflow: hidden;
+}
+
+.health-table tr:last-child td {
+  border-bottom: none;
+}
+
+.health-table__title {
+  color: var(--color-text);
+  font-weight: 600;
+}
+
+/* Same reason as .finance-table__title-inner: keep the <td> a real table cell. */
+.health-table__title-inner {
+  display: flex;
+  align-items: center;
+  gap: 0.4rem;
+}
+
+.health-table__dosage {
+  font-size: 0.7rem;
+  font-weight: 500;
+  color: var(--color-text-muted);
+}
+
+.health-table__type {
+  display: flex;
+  align-items: center;
+  gap: 0.35rem;
+}
+
+.health-table__status {
+  font-size: 0.7rem;
+  font-weight: 650;
+  padding: 0.14rem 0.55rem;
+  border-radius: 999px;
+}
+
+.health-table__status--success {
+  background: color-mix(in srgb, var(--color-success) 16%, transparent);
+  color: var(--color-success);
+}
+
+.health-table__status--warning {
+  background: color-mix(in srgb, var(--color-warning) 16%, transparent);
+  color: var(--color-warning);
+}
+
+.health-table__status--danger {
+  background: color-mix(in srgb, var(--color-danger) 16%, transparent);
+  color: var(--color-danger);
+}
+
+.health-table__mark-done {
+  font-size: 0.78rem;
+  font-weight: 600;
+  color: var(--color-health);
+  background: none;
+  border: none;
+  box-shadow: none;
+  cursor: pointer;
+  padding: 0;
+}
+
+.health-table__item-status {
+  font-size: 0.7rem;
+  font-weight: 650;
+  padding: 0.14rem 0.55rem;
+  border-radius: 999px;
+  border: none;
+  cursor: pointer;
+  background: color-mix(in srgb, var(--color-text-muted) 16%, transparent);
+  color: var(--color-text-muted);
+}
+
+.health-table__item-status--active {
+  background: color-mix(in srgb, var(--color-health) 16%, transparent);
+  color: var(--color-health);
+}
+
+.health-table__actions {
+  display: flex;
+  align-items: center;
+  gap: 0.4rem;
+}
+
+.health-table__actions button {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 24px;
+  height: 24px;
+  border-radius: 50%;
+  background: none;
+  border: none;
+  box-shadow: none;
+  cursor: pointer;
+  color: var(--color-text-muted);
+}
+
+.health-table__actions button:hover {
+  background: var(--color-surface-hover);
+  color: var(--color-health);
+}
+
+.health-table__actions button.danger:hover {
+  color: var(--color-danger);
+}
+
+/* Phone: header actions drop below the title, stats stack, tables scroll sideways instead of
+   squeezing every column. */
+@media (max-width: 760px) {
+  .health__header {
+    flex-direction: column;
+    gap: 0.8rem;
+  }
+
+  .health__stats {
+    grid-template-columns: 1fr;
+  }
+
+  .health-table {
+    display: block;
+    overflow-x: auto;
+    table-layout: auto;
+  }
+}

@@ -1,0 +1,270 @@
+.finance {
+  display: flex;
+  flex-direction: column;
+  gap: 1.2rem;
+  max-width: 1200px;
+}
+
+.finance__header {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+}
+
+.finance__header h1 {
+  font-size: 1.4rem;
+  font-weight: 700;
+  margin: 0 0 0.2rem;
+}
+
+.finance__header p {
+  margin: 0;
+  color: var(--color-text-muted);
+  font-size: 0.85rem;
+}
+
+.finance__stats {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 0.9rem;
+}
+
+.finance__toolbar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+  flex-wrap: wrap;
+}
+
+.finance__toolbar-filters {
+  display: flex;
+  align-items: center;
+  gap: 0.7rem;
+  flex-wrap: wrap;
+}
+
+.finance__period {
+  margin: 0;
+  min-width: 170px;
+}
+
+.finance__period select {
+  font-size: 0.85rem;
+}
+
+.finance__hint {
+  margin: 0;
+  font-size: 0.82rem;
+  color: var(--color-text-muted);
+}
+
+.finance__hint--error {
+  color: var(--color-danger);
+}
+
+/* Auto layout: columns size to their content instead of fixed percentages that cut text at
+   narrower widths. Below min-width the wrapper scrolls horizontally rather than squeezing. */
+.finance-table {
+  width: 100%;
+  min-width: 860px;
+  border-collapse: collapse;
+  font-size: 0.82rem;
+  border-radius: 12px;
+  overflow: hidden;
+  background: var(--color-surface);
+  border: 1px solid var(--color-border);
+}
+
+.finance-table th {
+  text-align: left;
+  font-size: 0.72rem;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  color: var(--color-text-muted);
+  font-weight: 650;
+  padding: 0.65rem 0.65rem;
+  border-bottom: 1px solid var(--color-border);
+  line-height: 1.3;
+  vertical-align: bottom;
+}
+
+.finance-table td {
+  padding: 0.7rem 0.65rem;
+  border-bottom: 1px solid var(--color-border);
+  color: var(--color-text-muted);
+}
+
+/* Valor, vencimento, status e ações nunca quebram; o resto (descrição, categoria, repetição,
+   centro de custo) quebra linha quando falta espaço, em vez de empurrar a tabela para fora. */
+.finance-table td:nth-child(3),
+.finance-table td:nth-child(4),
+.finance-table td:nth-child(7),
+.finance-table td:nth-child(8) {
+  white-space: nowrap;
+}
+
+.finance-table tr:last-child td {
+  border-bottom: none;
+}
+
+.finance-table__title {
+  color: var(--color-text);
+  font-weight: 600;
+  min-width: 140px;
+}
+
+/* Flex lives on an inner wrapper — display:flex on the <td> itself takes it out of table-cell
+   layout, so its height/border stop lining up with the rest of the row. */
+.finance-table__title-inner {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 0.3rem 0.4rem;
+  min-width: 0;
+}
+
+.finance-table__title-text {
+  min-width: 0;
+}
+
+.finance-table__forecast {
+  flex-shrink: 0;
+  font-size: 0.68rem;
+  font-weight: 650;
+  padding: 0.1rem 0.45rem;
+  border-radius: 999px;
+  background: color-mix(in srgb, var(--color-accent) 16%, transparent);
+  color: var(--color-accent);
+}
+
+.finance-table__indicator {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.15rem;
+  flex-shrink: 0;
+  font-size: 0.7rem;
+  color: var(--color-text-muted);
+}
+
+.finance-table__category {
+  display: flex;
+  align-items: center;
+  gap: 0.35rem;
+}
+
+.finance-table__status {
+  font-size: 0.7rem;
+  font-weight: 650;
+  padding: 0.14rem 0.55rem;
+  border-radius: 999px;
+}
+
+.finance-table__status--success {
+  background: color-mix(in srgb, var(--color-success) 16%, transparent);
+  color: var(--color-success);
+}
+
+.finance-table__status--warning {
+  background: color-mix(in srgb, var(--color-warning) 16%, transparent);
+  color: var(--color-warning);
+}
+
+.finance-table__status--danger {
+  background: color-mix(in srgb, var(--color-danger) 16%, transparent);
+  color: var(--color-danger);
+}
+
+.finance-table__actions {
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+}
+
+.finance-table__actions button {
+  background: none;
+  border: none;
+  box-shadow: none;
+  cursor: pointer;
+  padding: 0;
+}
+
+/* Fixed two-zone layout so the icon group lands on the same X in every row,
+   whether or not "Marcar como paga" renders in the first zone. */
+.finance-table__mark-slot {
+  flex: 1;
+  text-align: left;
+  overflow: hidden;
+}
+
+.finance-table__mark-slot button {
+  font-size: 0.8rem;
+  font-weight: 600;
+  color: var(--color-accent);
+  white-space: nowrap;
+}
+
+.finance-table__mark-slot button.finance-table__unmark {
+  color: var(--color-text-muted);
+  font-weight: 500;
+}
+
+.finance-table__mark-slot button.finance-table__unmark:hover {
+  color: var(--color-text);
+  text-decoration: underline;
+}
+
+.finance-table__icon-group {
+  display: flex;
+  align-items: center;
+  gap: 0.4rem;
+  flex-shrink: 0;
+}
+
+.finance-table__remove,
+.finance-table__icon-btn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 24px;
+  height: 24px;
+  min-width: 24px;
+  border-radius: 50%;
+  color: var(--color-text-muted);
+  font-size: 1.1rem;
+  line-height: 1;
+}
+
+.finance-table__icon-btn:hover {
+  background: var(--color-surface-hover);
+  color: var(--color-accent);
+}
+
+.finance-table__remove:hover {
+  background: var(--color-surface-hover);
+  color: var(--color-danger);
+}
+
+.finance__table-wrap {
+  overflow-x: auto;
+}
+
+@media (max-width: 760px) {
+  /* Let the filter row shrink to the screen so FilterTabs can scroll inside it. */
+  .finance__toolbar,
+  .finance__toolbar-filters,
+  .finance__toolbar-filters > * {
+    min-width: 0;
+    max-width: 100%;
+  }
+
+  .finance__header {
+    flex-direction: column;
+    gap: 0.8rem;
+  }
+
+  .finance__stats {
+    grid-template-columns: 1fr 1fr;
+  }
+
+}

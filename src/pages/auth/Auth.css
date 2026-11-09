@@ -1,0 +1,82 @@
+.auth {
+  min-height: 100vh;
+  min-height: 100dvh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: calc(1.5rem + env(safe-area-inset-top)) 1rem calc(1.5rem + env(safe-area-inset-bottom));
+  background: var(--color-bg);
+  color: var(--color-text);
+}
+
+.auth__card {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  width: 100%;
+  max-width: 400px;
+  padding: 1.8rem 1.6rem;
+  border-radius: 16px;
+  background: var(--color-surface);
+  border: 1px solid var(--color-border);
+}
+
+.auth__brand {
+  display: flex;
+  align-items: center;
+  gap: 0.55rem;
+  font-weight: 650;
+  font-size: 0.9rem;
+}
+
+.auth__mark {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 28px;
+  height: 28px;
+  border-radius: 8px;
+  background: linear-gradient(135deg, var(--color-accent), var(--color-accent-2));
+  color: #fff;
+  font-size: 0.72rem;
+  font-weight: 700;
+}
+
+.auth__card h1 {
+  margin: 0.2rem 0 0;
+  font-size: 1.35rem;
+}
+
+/* 16px on inputs stops iOS Safari from zooming in when a field gets focus. */
+.auth__card .field input {
+  font-size: 1rem;
+}
+
+.auth__error {
+  margin: 0;
+  font-size: 0.82rem;
+  color: var(--color-danger);
+}
+
+.auth__submit {
+  justify-content: center;
+  padding-block: 0.7rem;
+}
+
+.auth__switch {
+  margin: 0;
+  text-align: center;
+  font-size: 0.85rem;
+  color: var(--color-text-muted);
+}
+
+.auth__switch a {
+  color: var(--color-accent);
+  font-weight: 600;
+}
+
+@media (max-width: 760px) {
+  .auth .field-row {
+    grid-template-columns: 1fr;
+  }
+}

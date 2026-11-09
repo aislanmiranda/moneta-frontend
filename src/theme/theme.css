@@ -1,0 +1,203 @@
+:root,
+:root[data-theme="light"] {
+  color-scheme: light;
+  --color-bg: #f3f4f7;
+  --color-surface: #ffffff;
+  --color-surface-hover: #ececf3;
+  --color-text: #15161a;
+  --color-text-muted: #6c6f7a;
+  --color-border: rgba(15, 17, 26, 0.08);
+  --color-accent: #5b6cf0;
+  --color-accent-2: #9b5cf0;
+  --color-info: #2f80ed;
+  --color-success: #1f9254;
+  --color-warning: #b9790a;
+  --color-danger: #c4342f;
+  --color-health: #e0383f;
+  --shadow-color: 220 20% 40%;
+}
+
+/* Dark = soft graphite, not near-black: layers step up in lightness (bg → surface → hover) so
+   cards stay distinct without heavy borders. */
+:root[data-theme="dark"] {
+  color-scheme: dark;
+  --color-bg: #22242b;
+  --color-surface: #2b2e37;
+  --color-surface-hover: #363a45;
+  --color-text: #eef0f4;
+  --color-text-muted: #a2a6b2;
+  --color-border: rgba(255, 255, 255, 0.09);
+  --color-accent: #7c8cfb;
+  --color-accent-2: #c07cf0;
+  --color-info: #5b9df0;
+  --color-success: #3ddc84;
+  --color-warning: #e0b23d;
+  --color-danger: #ef6861;
+  --color-health: #ff5a63;
+  --shadow-color: 230 25% 8%;
+}
+
+/* The sidebar keeps the same dark navy regardless of light/dark mode. */
+:root {
+  --sidebar-bg: #14151c;
+  --sidebar-surface: #1b1d26;
+  --sidebar-text: #e7e8ec;
+  --sidebar-text-muted: #8b8d98;
+  --sidebar-border: rgba(255, 255, 255, 0.06);
+  --sidebar-active-bg: color-mix(in srgb, var(--color-accent) 28%, transparent);
+}
+
+/* In dark mode the sidebar follows the softer graphite too, one step darker than the page. */
+:root[data-theme="dark"] {
+  --sidebar-bg: #1b1d23;
+  --sidebar-surface: #252832;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+html,
+body,
+#root {
+  height: 100%;
+  margin: 0;
+  background: transparent;
+}
+
+body {
+  font-family:
+    -apple-system, BlinkMacSystemFont, "SF Pro Text", Inter, Avenir, Helvetica,
+    Arial, sans-serif;
+  font-synthesis: none;
+  text-rendering: optimizeLegibility;
+  -webkit-font-smoothing: antialiased;
+}
+
+/* Shared buttons/links, reused across pages */
+.btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.35rem;
+  font-size: 0.8rem;
+  font-weight: 600;
+  padding: 0.45rem 0.8rem;
+  border-radius: 8px;
+  border: none;
+  box-shadow: none;
+  cursor: pointer;
+  text-decoration: none;
+  white-space: nowrap;
+}
+
+.btn--primary {
+  background: linear-gradient(135deg, var(--color-accent), var(--color-accent-2));
+  color: #fff;
+}
+
+.btn--health {
+  background: var(--color-health);
+  color: #fff;
+}
+
+.btn--outline {
+  background: var(--color-surface);
+  color: var(--color-text);
+  border: 1px solid var(--color-border);
+}
+
+.btn--outline:hover {
+  background: var(--color-surface-hover);
+}
+
+.btn--danger-outline {
+  background: var(--color-surface);
+  color: var(--color-danger);
+  border: 1px solid var(--color-border);
+}
+
+.btn--danger {
+  background: var(--color-danger);
+  color: #fff;
+}
+
+.link-arrow {
+  font-size: 0.8rem;
+  font-weight: 600;
+  color: var(--color-accent);
+  text-decoration: none;
+  white-space: nowrap;
+}
+
+/* Shared form field primitives, reused across pages */
+.field {
+  display: flex;
+  flex-direction: column;
+  gap: 0.3rem;
+}
+
+.field__hint {
+  margin: 0;
+  font-size: 0.74rem;
+  color: var(--color-text-muted);
+}
+
+.field__label {
+  font-size: 0.78rem;
+  font-weight: 600;
+  color: var(--color-text-muted);
+}
+
+.field input,
+.field textarea,
+.field select {
+  box-sizing: border-box;
+  width: 100%;
+  min-width: 0;
+  font: inherit;
+  font-size: 0.85rem;
+  padding: 0.55rem 0.7rem;
+  border-radius: 8px;
+  border: 1px solid var(--color-border);
+  background: var(--color-bg);
+  color: var(--color-text);
+  outline: none;
+  resize: vertical;
+}
+
+.field textarea {
+  resize: vertical;
+  min-height: 6rem;
+  line-height: 1.45;
+}
+
+.field input:focus,
+.field textarea:focus,
+.field select:focus {
+  border-color: var(--color-accent);
+}
+
+/* Strip native select chrome (the "glass" dropdown look) and draw our own chevron. */
+.field select {
+  appearance: none;
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  padding-right: 2.2rem;
+  cursor: pointer;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16' viewBox='0 0 24 24' fill='none' stroke='%23888b93' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpolyline points='6 9 12 15 18 9'%3E%3C/polyline%3E%3C/svg%3E");
+  background-repeat: no-repeat;
+  background-position: right 0.65rem center;
+  background-size: 16px;
+}
+
+.field select:hover {
+  border-color: color-mix(in srgb, var(--color-accent) 40%, var(--color-border));
+}
+
+/* Header actions of module pages (Configurar + primary action). */
+.module-header__actions {
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+  flex-wrap: wrap;
+}

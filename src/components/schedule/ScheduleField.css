@@ -1,0 +1,319 @@
+.schedule-field {
+  display: flex;
+  flex-direction: column;
+  gap: 0.6rem;
+}
+
+/* Dark-theme the raw form controls this component uses outside a <label className="field">
+   wrapper — theme.css's shared input/select styling only applies inside .field, and several
+   controls here (hour rows, minute, cron builder fields) intentionally aren't wrapped that way. */
+.schedule-field select,
+.schedule-field input[type="number"],
+.schedule-field input[type="text"] {
+  font: inherit;
+  font-size: 0.85rem;
+  padding: 0.5rem 0.65rem;
+  border-radius: 8px;
+  border: 1px solid var(--color-border);
+  background: var(--color-bg);
+  color: var(--color-text);
+  outline: none;
+}
+
+.schedule-field select:focus,
+.schedule-field input:focus {
+  border-color: var(--color-accent);
+}
+
+.schedule-field select {
+  appearance: none;
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  padding-right: 2.2rem;
+  cursor: pointer;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16' viewBox='0 0 24 24' fill='none' stroke='%23888b93' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpolyline points='6 9 12 15 18 9'%3E%3C/polyline%3E%3C/svg%3E");
+  background-repeat: no-repeat;
+  background-position: right 0.65rem center;
+  background-size: 16px;
+}
+
+.schedule-field select:hover {
+  border-color: color-mix(in srgb, var(--color-accent) 40%, var(--color-border));
+}
+
+.schedule-field__tabs {
+  display: flex;
+  gap: 0.4rem;
+  border-bottom: 1px solid var(--color-border);
+  margin-bottom: 0.2rem;
+}
+
+.schedule-field__tab {
+  padding: 0.4rem 0.2rem;
+  background: none;
+  border: none;
+  box-shadow: none;
+  font-size: 0.8rem;
+  font-weight: 600;
+  color: var(--color-text-muted);
+  cursor: pointer;
+  border-bottom: 2px solid transparent;
+  margin-bottom: -1px;
+}
+
+.schedule-field__tab--active {
+  color: var(--color-accent);
+  border-bottom-color: var(--color-accent);
+}
+
+.schedule-field__presets {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.4rem;
+}
+
+.schedule-field__preset {
+  font-size: 0.72rem;
+  padding: 0.3rem 0.6rem;
+  border-radius: 999px;
+  border: 1px solid var(--color-border);
+  background: var(--color-bg);
+  color: var(--color-text-muted);
+  cursor: pointer;
+  box-shadow: none;
+}
+
+.schedule-field__preset:hover {
+  color: var(--color-text);
+  border-color: var(--color-accent);
+}
+
+.schedule-field__days {
+  display: flex;
+  flex-direction: column;
+  gap: 0.35rem;
+}
+
+.schedule-field__day-all {
+  align-self: flex-start;
+}
+
+.schedule-field__day-grid {
+  display: grid;
+  grid-template-columns: repeat(7, minmax(0, 1fr));
+  gap: 0.3rem;
+}
+
+.schedule-field__day {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 0.72rem;
+  font-weight: 600;
+  padding: 0.3rem 0.4rem;
+  border-radius: 7px;
+  border: 1.5px solid var(--color-border);
+  background: var(--color-bg);
+  color: var(--color-text-muted);
+  box-shadow: none;
+  cursor: pointer;
+}
+
+.schedule-field__day-all {
+  border-radius: 999px;
+  padding: 0.3rem 0.65rem;
+}
+
+.schedule-field__day--selected {
+  border-color: var(--color-accent);
+  background: color-mix(in srgb, var(--color-accent) 14%, transparent);
+  color: var(--color-accent);
+}
+
+.schedule-field__hours-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.schedule-field__minute {
+  display: flex;
+  align-items: center;
+  gap: 0.4rem;
+  font-size: 0.72rem;
+  color: var(--color-text-muted);
+}
+
+.schedule-field__minute input {
+  width: 3.2rem;
+  padding: 0.3rem 0.4rem;
+}
+
+.schedule-field__hours {
+  display: flex;
+  flex-direction: column;
+  gap: 0.4rem;
+}
+
+.schedule-field__hour-row {
+  display: flex;
+  align-items: center;
+  gap: 0.4rem;
+}
+
+.schedule-field__hour-row select {
+  flex: 1;
+}
+
+.schedule-field__remove-hour {
+  width: 1.6rem;
+  height: 1.6rem;
+  border-radius: 50%;
+  border: 1px solid var(--color-border);
+  background: var(--color-bg);
+  color: var(--color-text-muted);
+  cursor: pointer;
+  box-shadow: none;
+  font-size: 0.9rem;
+  line-height: 1;
+}
+
+.schedule-field__remove-hour:hover {
+  color: var(--color-danger);
+  border-color: var(--color-danger);
+}
+
+.schedule-field__add-hour {
+  align-self: flex-start;
+  font-size: 0.75rem;
+  padding: 0.3rem 0.6rem;
+  border-radius: 6px;
+  border: 1px dashed var(--color-border);
+  background: none;
+  box-shadow: none;
+  color: var(--color-accent);
+  cursor: pointer;
+}
+
+.schedule-field__preview {
+  font-size: 0.78rem;
+  font-style: italic;
+  color: var(--color-text-muted);
+  margin: 0.2rem 0 0;
+}
+
+.schedule-field__hint {
+  font-size: 0.72rem;
+  color: var(--color-text-muted);
+  margin: 0;
+}
+
+.schedule-field__hint code {
+  background: var(--color-surface-hover);
+  padding: 0.1rem 0.3rem;
+  border-radius: 4px;
+}
+
+.schedule-field__hint--error {
+  color: var(--color-danger);
+}
+
+.schedule-field__tabs--sub {
+  border-bottom: none;
+  margin-bottom: 0;
+  gap: 0.3rem;
+}
+
+.schedule-field__tabs--sub .schedule-field__tab {
+  font-size: 0.72rem;
+  padding: 0.25rem 0.6rem;
+  border: 1px solid var(--color-border);
+  border-radius: 999px;
+  margin-bottom: 0;
+}
+
+.schedule-field__tabs--sub .schedule-field__tab--active {
+  border-color: var(--color-accent);
+  background: color-mix(in srgb, var(--color-accent) 14%, transparent);
+}
+
+.schedule-field__preview code {
+  background: var(--color-surface-hover);
+  padding: 0.1rem 0.3rem;
+  border-radius: 4px;
+  font-style: normal;
+}
+
+/* Visual cron builder */
+.cron-visual-builder {
+  display: flex;
+  flex-direction: column;
+  gap: 0.6rem;
+}
+
+.cron-visual-builder__row {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 0.6rem;
+}
+
+.cron-visual-builder__day-driver {
+  display: flex;
+  flex-direction: column;
+  gap: 0.3rem;
+}
+
+.cron-field {
+  display: flex;
+  flex-direction: column;
+  gap: 0.35rem;
+  padding: 0.5rem 0.6rem;
+  border-radius: 8px;
+  border: 1px solid var(--color-border);
+}
+
+.cron-field__header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.4rem;
+}
+
+.cron-field__header select {
+  font-size: 0.75rem;
+  padding: 0.3rem 1.8rem 0.3rem 0.5rem;
+  background-position: right 0.5rem center;
+  background-size: 13px;
+}
+
+.cron-field__chips {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.3rem;
+}
+
+.cron-field__range {
+  display: flex;
+  align-items: center;
+  gap: 0.4rem;
+  font-size: 0.75rem;
+  color: var(--color-text-muted);
+}
+
+.cron-field__range select,
+.cron-field__range input {
+  flex: 1;
+  min-width: 0;
+}
+
+.cron-field__step {
+  display: flex;
+  align-items: center;
+  gap: 0.4rem;
+  font-size: 0.75rem;
+  color: var(--color-text-muted);
+}
+
+.cron-field__step input {
+  width: 4rem;
+}
