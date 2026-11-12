@@ -69,6 +69,13 @@ export function DateControlPage({ module }: { module: Module }) {
     [entries],
   );
 
+  // Total do período filtrado: soma todos os lançamentos do mês, qualquer status (paga, vencida ou pendente).
+  const periodEntries = useMemo(
+    () => entries.filter((e) => period === "all" || e.dueDate.startsWith(period)),
+    [entries, period],
+  );
+  const periodTotal = useMemo(() => periodEntries.reduce((s, e) => s + e.amount, 0), [periodEntries]);
+
   const filtered = entries
     .filter((e) => filter === "todas" || e.status === FILTER_TO_STATUS[filter])
     .filter((e) => period === "all" || e.dueDate.startsWith(period))
@@ -181,6 +188,16 @@ export function DateControlPage({ module }: { module: Module }) {
         </div>
         <SearchInput placeholder="Buscar conta..." value={query} onChange={setQuery} />
       </div>
+
+      {!loading && !error && (
+        <div className="finance__period-total" aria-live="polite">
+          <span>
+            {period === "all" ? "Total de todos os períodos" : "Total do mês"} ({periodEntries.length}{" "}
+            {periodEntries.length === 1 ? "lançamento" : "lançamentos"}, todos os status)
+          </span>
+          <strong>{formatCurrency(periodTotal)}</strong>
+        </div>
+      )}
 
       {loading ? (
         <p className="finance__hint">Carregando lançamentos…</p>
