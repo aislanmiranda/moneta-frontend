@@ -4,6 +4,7 @@ import { useModules } from "../../api/useModules";
 import { useRoutines } from "../../api/useRoutines";
 import { useAuth } from "../../auth/AuthProvider";
 import { useNotifications } from "../../notifications/NotificationsProvider";
+import { FinanceChart } from "./FinanceChart";
 import { StatCard } from "./StatCard";
 import { NotificationRow, UpcomingRoutineRow } from "./ActivityRows";
 import "./Dashboard.css";
@@ -20,9 +21,10 @@ const LIST_LIMIT = 5;
 
 export function Dashboard() {
   const { routines, loading, error } = useRoutines();
-  const { modules } = useModules();
+  const { modules, loading: modulesLoading } = useModules();
   const { notifications, unreadCount } = useNotifications();
   const { user } = useAuth();
+  const financeModule = modules.find((m) => m.slug === "financeiro");
   const firstName = user?.fullName.split(" ")[0];
 
   const activeRoutines = routines.filter((r) => r.status === "Active");
@@ -61,6 +63,22 @@ export function Dashboard() {
           }
         />
         <StatCard icon={Bell} tone="danger" label="Notificações não lidas" value={unreadCount} />
+      </section>
+
+      <section className="dashboard__finance">
+        <div className="dashboard__section-header">
+          <h2>Financeiro</h2>
+          {financeModule && (
+            <Link to={`/modulos/${financeModule.slug}`} className="link-arrow">
+              Abrir módulo →
+            </Link>
+          )}
+        </div>
+        {financeModule ? (
+          <FinanceChart moduleId={financeModule.id} />
+        ) : (
+          <p className="dashboard__hint">{modulesLoading ? "Carregando…" : "Módulo Financeiro não encontrado."}</p>
+        )}
       </section>
 
       <section className="dashboard__columns">

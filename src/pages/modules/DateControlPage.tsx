@@ -7,7 +7,6 @@ import { resolveEntityIcon } from "../../constants/entityIcons";
 import { FilterTabs } from "../../components/FilterTabs";
 import { SearchInput } from "../../components/SearchInput";
 import type { DateControlEntry, DateControlEntryScope, Module } from "../../types";
-import { FinanceDashboard } from "./datecontrol/FinanceDashboard";
 import { StatCard } from "../dashboard/StatCard";
 import {
   SCOPE_LABEL,
@@ -32,7 +31,6 @@ const FILTER_TO_STATUS = {
 
 export function DateControlPage({ module }: { module: Module }) {
   const { parties, categories, entries: allEntries, loading, error, refetch } = useDateControlData(module.id);
-  const [view, setView] = useState<"lancamentos" | "dashboard">("lancamentos");
   const [scope, setScope] = useState<DateControlEntryScope | "all">("all");
   const [settingsOpen, setSettingsOpen] = useState(false);
   const [filter, setFilter] = useState<FilterKey>("todas");
@@ -120,19 +118,6 @@ export function DateControlPage({ module }: { module: Module }) {
       </header>
 
 
-      <FilterTabs
-        tabs={[
-          { key: "lancamentos", label: "Lançamentos" },
-          { key: "dashboard", label: "Dashboard" },
-        ]}
-        active={view}
-        onChange={(key) => setView(key as "lancamentos" | "dashboard")}
-      />
-
-      {view === "dashboard" ? (
-        <FinanceDashboard moduleId={module.id} />
-      ) : (
-        <>
       <section className="finance__stats">
         <StatCard icon={Receipt} tone="accent" label="Total de lançamentos" value={counts.todas} suffix={formatCurrency(periodTotal)} />
         <StatCard
@@ -315,8 +300,6 @@ export function DateControlPage({ module }: { module: Module }) {
           </tbody>
         </table>
         </div>
-      )}
-        </>
       )}
 
       {modalOpen && (
