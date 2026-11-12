@@ -215,7 +215,21 @@ export interface UpdateDateControlEntryInput {
   notes: string | null;
 }
 
+export interface MonthlyDashboardMonth {
+  month: number;
+  paid: number;
+  overdue: number;
+  pending: number;
+}
+
+export interface MonthlyDashboard {
+  year: number;
+  months: MonthlyDashboardMonth[];
+}
+
 export const dateControlEntriesApi = {
+  monthlyDashboard: (moduleId: string, year: number) =>
+    request<MonthlyDashboard>(`/modules/${moduleId}/entries/dashboard/monthly?year=${year}`),
   list: (moduleId: string) => request<DateControlEntry[]>(`/modules/${moduleId}/entries`),
   create: (moduleId: string, input: CreateDateControlEntryInput) =>
     request<DateControlEntry>(`/modules/${moduleId}/entries`, {
