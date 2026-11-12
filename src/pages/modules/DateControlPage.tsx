@@ -118,7 +118,7 @@ export function DateControlPage({ module }: { module: Module }) {
       </header>
 
       <section className="finance__stats">
-        <StatCard icon={Receipt} tone="accent" label="Total de lançamentos" value={counts.todas} />
+        <StatCard icon={Receipt} tone="accent" label="Total de lançamentos" value={counts.todas} suffix={formatCurrency(periodTotal)} />
         <StatCard
           icon={Clock3}
           tone="info"
@@ -188,16 +188,6 @@ export function DateControlPage({ module }: { module: Module }) {
         </div>
         <SearchInput placeholder="Buscar conta..." value={query} onChange={setQuery} />
       </div>
-
-      {!loading && !error && (
-        <div className="finance__period-total" aria-live="polite">
-          <span>
-            {period === "all" ? "Total de todos os períodos" : "Total do mês"} ({periodEntries.length}{" "}
-            {periodEntries.length === 1 ? "lançamento" : "lançamentos"}, todos os status)
-          </span>
-          <strong>{formatCurrency(periodTotal)}</strong>
-        </div>
-      )}
 
       {loading ? (
         <p className="finance__hint">Carregando lançamentos…</p>
