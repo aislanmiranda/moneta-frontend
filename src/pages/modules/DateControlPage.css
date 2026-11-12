@@ -268,3 +268,35 @@
   }
 
 }
+
+.finance__period-total {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  margin-bottom: 12px;
+  padding: 10px 14px;
+  border: 1px solid var(--border, rgba(128, 128, 128, 0.25));
+  border-radius: 10px;
+  font-size: 0.9rem;
+}
+
+.finance__period-total strong {
+  font-size: 1.1rem;
+}
+
+.finance__period-total {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  margin-bottom: 12px;
+  padding: 10px 14px;
+  border: 1px solid rgba(128, 128, 128, 0.25);
+  border-radius: 10px;
+  font-size: 0.9rem;
+}
+
+.finance__period-total strong {
+  font-size: 1.1rem;
+}
