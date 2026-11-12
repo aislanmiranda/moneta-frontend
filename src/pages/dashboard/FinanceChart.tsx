@@ -1,7 +1,7 @@
-import { useEffect, useMemo, useState } from "react";
-import { dateControlEntriesApi, type MonthlyDashboard } from "../../../api/client";
-import { formatCurrency } from "./dateControlLabels";
-import "./FinanceDashboard.css";
+import { useEffect, useMemo, useState, type CSSProperties } from "react";
+import { dateControlEntriesApi, type MonthlyDashboard } from "../../api/client";
+import { formatCurrency } from "../modules/datecontrol/dateControlLabels";
+import "./FinanceChart.css";
 
 type ChartKind = "line" | "bar";
 type SeriesKey = "paid" | "pending" | "overdue";
@@ -45,7 +45,7 @@ const PAD = { top: 16, right: 16, bottom: 28, left: 64 };
 const PLOT_W = W - PAD.left - PAD.right;
 const PLOT_H = H - PAD.top - PAD.bottom;
 
-export function FinanceDashboard({ moduleId }: { moduleId: string }) {
+export function FinanceChart({ moduleId }: { moduleId: string }) {
   const currentYear = new Date().getFullYear();
   const [year, setYear] = useState(currentYear);
   const [kind, setKind] = useState<ChartKind>("line");
@@ -82,9 +82,9 @@ export function FinanceDashboard({ moduleId }: { moduleId: string }) {
   const activeMonth = active !== null ? months[active] : null;
 
   return (
-    <section className="fin-dash">
-      <div className="fin-dash__toolbar">
-        <div className="field fin-dash__year">
+    <section className="fin-chart">
+      <div className="fin-chart__toolbar">
+        <div className="field fin-chart__year">
           <select aria-label="Ano" value={year} onChange={(e) => setYear(Number(e.target.value))}>
             {years.map((y2) => (
               <option key={y2} value={y2}>
@@ -108,18 +108,20 @@ export function FinanceDashboard({ moduleId }: { moduleId: string }) {
         </div>
       </div>
 
-      <div className="fin-dash__card">
+      <div className="fin-chart__card">
         <h2>Evolução mensal — {year}</h2>
         {loading ? (
-          <p className="fin-dash__hint">Carregando dashboard…</p>
+          <p className="fin-chart__hint">Carregando dashboard…</p>
         ) : error ? (
-          <p className="fin-dash__hint fin-dash__hint--error">{error}</p>
+          <p className="fin-chart__hint fin-chart__hint--error">{error}</p>
         ) : isEmpty ? (
-          <p className="fin-dash__hint">Nenhum lançamento em {year}.</p>
+          <p className="fin-chart__hint">Nenhum lançamento em {year}.</p>
         ) : (
           <>
-            <div className="fin-dash__chart">
+            <div className="fin-chart__chart">
               <svg
+                key={`${kind}-${year}`}
+                className="fin-chart__svg"
                 viewBox={`0 0 ${W} ${H}`}
                 role="img"
                 aria-label={`Gráfico de ${kind === "line" ? "linhas" : "barras"} com contas pagas, pendentes e vencidas por mês em ${year}`}
@@ -127,22 +129,24 @@ export function FinanceDashboard({ moduleId }: { moduleId: string }) {
               >
                 {scale.ticks.map((t) => (
                   <g key={t}>
-                    <line x1={PAD.left} x2={W - PAD.right} y1={y(t)} y2={y(t)} className="fin-dash__grid" />
-                    <text x={PAD.left - 8} y={y(t) + 4} textAnchor="end" className="fin-dash__axis">
+                    <line x1={PAD.left} x2={W - PAD.right} y1={y(t)} y2={y(t)} className="fin-chart__grid" />
+                    <text x={PAD.left - 8} y={y(t) + 4} textAnchor="end" className="fin-chart__axis">
                       {formatAxis(t)}
                     </text>
                   </g>
                 ))}
                 {MONTH_LABELS.map((label, i) => (
-                  <text key={label} x={x(i)} y={H - 8} textAnchor="middle" className="fin-dash__axis">
+                  <text key={label} x={x(i)} y={H - 8} textAnchor="middle" className="fin-chart__axis">
                     {label}
                   </text>
                 ))}
 
                 {kind === "line"
-                  ? SERIES.map((s) => (
-                      <g key={s.key} style={{ color: s.color }}>
+                  ? SERIES.map((s, si) => (
+                      <g key={s.key} style={{ color: s.color, "--delay": `${si * 120}ms` } as CSSProperties}>
                         <polyline
+                          className="fin-chart__line"
+                          pathLength={1}
                           fill="none"
                           stroke="currentColor"
                           strokeWidth={2.5}
@@ -150,7 +154,15 @@ export function FinanceDashboard({ moduleId }: { moduleId: string }) {
                           points={months.map((m, i) => `${x(i)},${y(m[s.key])}`).join(" ")}
                         />
                         {months.map((m, i) => (
-                          <circle key={m.month} cx={x(i)} cy={y(m[s.key])} r={active === i ? 5 : 3.5} fill="currentColor" className="fin-dash__dot" />
+                          <circle
+                            key={m.month}
+                            cx={x(i)}
+                            cy={y(m[s.key])}
+                            r={active === i ? 5 : 3.5}
+                            fill="currentColor"
+                            className="fin-chart__dot"
+                            style={{ "--dot-delay": `${500 + si * 120 + i * 40}ms` } as CSSProperties}
+                          />
                         ))}
                       </g>
                     ))
@@ -160,7 +172,18 @@ export function FinanceDashboard({ moduleId }: { moduleId: string }) {
                         const bx = x(i) + (j - 1) * (bw + 2) - bw / 2;
                         const h = PLOT_H - (y(m[s.key]) - PAD.top);
                         return (
-                          <rect key={`${m.month}-${s.key}`} x={bx} y={y(m[s.key])} width={bw} height={Math.max(h, 0)} rx={2} fill={s.color} opacity={active === null || active === i ? 1 : 0.55} />
+                          <rect
+                            key={`${m.month}-${s.key}`}
+                            className="fin-chart__bar"
+                            x={bx}
+                            y={y(m[s.key])}
+                            width={bw}
+                            height={Math.max(h, 0)}
+                            rx={2}
+                            fill={s.color}
+                            opacity={active === null || active === i ? 1 : 0.55}
+                            style={{ "--delay": `${i * 45 + j * 60}ms` } as CSSProperties}
+                          />
                         );
                       }),
                     )}
@@ -186,7 +209,7 @@ export function FinanceDashboard({ moduleId }: { moduleId: string }) {
 
               {activeMonth && (
                 <div
-                  className="fin-dash__tooltip"
+                  className="fin-chart__tooltip"
                   style={{ left: `${(x(active!) / W) * 100}%` }}
                   role="status"
                 >
@@ -200,7 +223,7 @@ export function FinanceDashboard({ moduleId }: { moduleId: string }) {
               )}
             </div>
 
-            <ul className="fin-dash__legend">
+            <ul className="fin-chart__legend">
               {SERIES.map((s) => (
                 <li key={s.key}>
                   <i style={{ background: s.color }} /> {s.label}

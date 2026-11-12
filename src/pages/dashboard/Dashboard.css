@@ -266,3 +266,11 @@
     gap: 0.4rem;
   }
 }
+
+.dashboard__finance {
+  display: flex;
+  flex-direction: column;
+  gap: 0.8rem;
+  margin-bottom: 1.5rem;
+  min-width: 0;
+}
