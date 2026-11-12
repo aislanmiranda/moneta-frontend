@@ -3,7 +3,7 @@ import "./FilterTabs.css";
 export interface FilterTab {
   key: string;
   label: string;
-  count: number;
+  count?: number;
 }
 
 export function FilterTabs({
@@ -26,7 +26,8 @@ export function FilterTabs({
           }
           onClick={() => onChange(tab.key)}
         >
-          {tab.label} <span className="filter-tabs__count">({tab.count})</span>
+          {tab.label}
+          {tab.count !== undefined && <span className="filter-tabs__count">({tab.count})</span>}
         </button>
       ))}
     </div>
