@@ -186,13 +186,13 @@
   border-radius: 999px;
   border: none;
   cursor: pointer;
-  background: color-mix(in srgb, var(--color-text-muted) 16%, transparent);
-  color: var(--color-text-muted);
+  background: color-mix(in srgb, var(--color-danger) 16%, transparent);
+  color: var(--color-danger);
 }
 
 .health-table__item-status--active {
-  background: color-mix(in srgb, var(--color-health) 16%, transparent);
-  color: var(--color-health);
+  background: color-mix(in srgb, var(--color-success) 16%, transparent);
+  color: var(--color-success);
 }
 
 .health-table__actions {
